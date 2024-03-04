@@ -10,7 +10,6 @@ from src.models.user import UserModel
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
 connection_manager = ConnectionManager()
 
 

@@ -60,9 +60,9 @@ def sql_connection(host, database, user, password, port):
 
 def upload_user(username: str, hassed_password: str, salt: str):
     conn = connect(
-        config.TEST_USERDB_URL, config.TEST_USERDB_NAME,
-        config.TEST_USERDB_USERNAME, config.TEST_USERDB_PASSWORD,
-        config.TEST_USERDB_PORT
+        config.POSTGRES_URL, config.POSTGRES_DB,
+        config.POSTGRES_USER, config.POSTGRES_PASSWORD,
+        config.POSTGRES_PORT
     )
     cursor = conn.cursor()
 
@@ -82,9 +82,9 @@ def upload_user(username: str, hassed_password: str, salt: str):
 
 def get_user(username: str):
     conn = connect(
-        config.TEST_USERDB_URL, config.TEST_USERDB_NAME,
-        config.TEST_USERDB_USERNAME, config.TEST_USERDB_PASSWORD,
-        config.TEST_USERDB_PORT
+        config.POSTGRES_URL, config.POSTGRES_DB,
+        config.POSTGRES_USER, config.POSTGRES_PASSWORD,
+        config.POSTGRES_PORT
     )
     cursor = conn.cursor()
 
@@ -101,23 +101,3 @@ def get_user(username: str):
     conn.close()
 
     return value
-
-
-if __name__ == "__main__":
-    import bcrypt
-
-    # New user
-    username = 'juan'
-    pw = 'sanchez'
-
-    salt = bcrypt.gensalt()
-    hassed_password = bcrypt.hashpw(pw.encode('utf-8'), salt)
-    upload_user(username, hassed_password, salt)
-
-    login_user = 'juan'
-    login_password_1 = 'sonchez'
-    login_password_2 = 'sanchez'
-
-    tableun, tablehp, tablesalt = get_user(login_user)
-    print(bcrypt.hashpw(login_password_1.encode(), tablesalt) == tablehp)
-    print(bcrypt.hashpw(login_password_2.encode(), tablesalt) == tablehp)
